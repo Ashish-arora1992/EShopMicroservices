@@ -3,19 +3,15 @@ using CatalogApi.Models;
 
 namespace CatalogApi.Products.GetProducts
 {
-    public record GetProductCommand():IQuery<GetProductsResult>;
-    public record GetProductsResult(IEnumerable<Product> Product);
+    public record GetProductQuery():IQuery<GetProductsResult>;
+    public record GetProductsResult(IEnumerable<Product> Products);
 
-    internal class GetProductsHandler : IQueryHandler<GetProductCommand, GetProductsResult>
+    internal class GetProductsHandler(IDocumentSession session) : IQueryHandler<GetProductQuery, GetProductsResult>
     {
-        public async Task<GetProductsResult> Handle(GetProductCommand request, CancellationToken cancellationToken)
+        public async Task<GetProductsResult> Handle(GetProductQuery query, CancellationToken cancellationToken)
         {
-            var products = new List<Product>()
-            {
-                new (){ Name="Telivision"},
-                new(){Name="Washing Machine"}
-            };
-            return new GetProductsResult(products); 
+            var response=await session.Query<Product>().ToListAsync(cancellationToken);
+            return new GetProductsResult(response); 
         }
     }
 }
