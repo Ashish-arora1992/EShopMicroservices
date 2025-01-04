@@ -12,7 +12,7 @@ namespace CatalogApi.Products.CreateProduct
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
 
-
+            
             var product = command.Adapt<Product>();
             //var product = new Product()
             //{
