@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Marten.Schema;
 
 namespace CatalogApi.Models
 {
-    [UseOptimisticConcurrency]
     public class Product
     {
         public Guid Id { get; set; } 
@@ -13,7 +11,7 @@ namespace CatalogApi.Models
         public string ImageFile { get; set; } = default!;
         public decimal Price { get; set; }
 
-       
+        public Guid? mt_version { get; set; }
         public Guid Version { get; set; }
 
     }

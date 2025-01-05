@@ -4,7 +4,7 @@ using Marten.Exceptions;
 
 namespace CatalogApi.Products.UpdateProductById
 {
-    public record UpdateProductByIdCommand(Guid Id,string Name, List<string> Category, string Description, string ImageFile, decimal Price)
+    public record UpdateProductByIdCommand(Guid Version,Guid Id,string Name, List<string> Category, string Description, string ImageFile, decimal Price)
         : ICommand<UpdateProductByIdResult>;
     
     public record UpdateProductByIdResult(bool IsSuccess);
@@ -19,6 +19,11 @@ namespace CatalogApi.Products.UpdateProductById
             if (product is null)
                 throw new Exception("Product not found");
 
+            
+            if (command.Version!=product.Version)
+            {
+                throw new Exception("concurrencyIssue");
+            }
             product.Name = command.Name;
             product.Category = command.Category;
             product.Description = command.Description;
@@ -29,7 +34,7 @@ namespace CatalogApi.Products.UpdateProductById
                 session.Update(product);
                 await session.SaveChangesAsync(cancellationToken);
             }
-            catch (Exception)
+            catch (ConcurrencyException)
             {
                 // Handle concurrency conflict, e.g., retry or notify the user
                 return new UpdateProductByIdResult(false);
