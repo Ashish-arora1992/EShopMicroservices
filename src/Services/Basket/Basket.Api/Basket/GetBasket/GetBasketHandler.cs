@@ -12,7 +12,7 @@ namespace Basket.Api.Basket.GetBasket
             var result = await Task.Run(() =>
             {
              
-                return new GetBasketResult(new ShoppingCart("Ashish"));
+                return new GetBasketResult(new ShoppingCart("Ashish Arora"));
             });
 
             return result;

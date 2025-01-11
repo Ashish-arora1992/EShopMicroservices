@@ -7,7 +7,7 @@ namespace Basket.Api.Basket.StoreBasket
     {
         public Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return  Task.FromResult(new StoreBasketResult("Ashish"));
         }
     }
     

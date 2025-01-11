@@ -2,7 +2,7 @@
 namespace Basket.Api.Basket.GetBasket
 {
 
-    public record GetBasketRequest(string UserName);
+    //public record GetBasketRequest(string UserName);
     public record GetBasketResponse(ShoppingCart ShoppingCart);
     public class GetBasketEndpoint : ICarterModule
     {

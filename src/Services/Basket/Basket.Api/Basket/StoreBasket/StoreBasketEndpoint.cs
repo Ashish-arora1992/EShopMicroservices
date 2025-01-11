@@ -13,8 +13,8 @@ namespace Basket.Api.Basket.StoreBasket
             {
                 var command=request.Adapt<StoreBasketCommand>();
                 var result = await sender.Send(command);
-                return Results.Created($"/basket/${result.UserName}",result);
-            }).WithName("StroreBasket").Produces<StoreBasketResponse>(StatusCodes.Status200OK).
+                return Results.Created($"/basket/{result.UserName}",result);
+            }).WithName("StoreBasket").Produces<StoreBasketResponse>(StatusCodes.Status200OK).
             ProducesProblem(StatusCodes.Status400BadRequest);
            
         }
