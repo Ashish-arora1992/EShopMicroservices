@@ -1,3 +1,4 @@
+using Basket.Api.Basket.Data;
 using BuildingBlocks.Behaviours;
 using FluentValidation;
 
@@ -11,11 +12,14 @@ builder.Services.AddMediatR(config =>
 });
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-//builder.Services.AddMarten(opts =>
-//{
-//    opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+builder.Services.AddMarten(opts =>
+{
+    opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+    opts.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 
-//}).UseLightweightSessions();
+}).UseLightweightSessions();
+
+builder.Services.AddScoped<IBasketRepository,BasketRepository>();
 // Add services to the container
 var app = builder.Build();
 
