@@ -22,11 +22,10 @@ namespace Discount.Grpc.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Amount")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("Discount")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -37,6 +36,22 @@ namespace Discount.Grpc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Coupons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 100,
+                            Description = "Apple Product",
+                            ProductName = "IphoneX"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 200,
+                            Description = "Samsung Product",
+                            ProductName = "Samsung 10"
+                        });
                 });
 #pragma warning restore 612, 618
         }

@@ -5,17 +5,22 @@ option csharp_namespace = "Discount.Grpc";  // This sets the namespace for the g
 package discount;  // The Protobuf package name
 
 service DiscountProtoService {
-  rpc GetDiscount (GetDiscountRequest) returns (CoupanModel);
+  rpc GetDiscount (GetDiscountRequest) returns (CouponModel);
+  rpc CreateDiscount (CreateDiscountRequest) returns (CouponModel);
 }
 
 message GetDiscountRequest {
   string productName = 1;
   
 }
+message CreateDiscountRequest {
+  CouponModel couponModel = 1;
+  
+}
 
-message CoupanModel {
+message CouponModel {
 	int32 id=1;
 	string productName=2;
 	string description=3;
-	string discount=4;
+	int32 amount=4;
 }
