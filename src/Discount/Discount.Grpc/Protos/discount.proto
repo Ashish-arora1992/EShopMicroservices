@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Discount.Grpc";  // This sets the namespace for the generated C# classes
+
+package discount;  // The Protobuf package name
+
+service DiscountProtoService {
+  rpc GetDiscount (GetDiscountRequest) returns (CoupanModel);
+}
+
+message GetDiscountRequest {
+  string productName = 1;
+  
+}
+
+message CoupanModel {
+	int32 id=1;
+	string productName=2;
+	string description=3;
+	string discount=4;
+}
