@@ -15,46 +15,59 @@ namespace Discount.Grpc.Services
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
+        public override async Task<GetDiscountResponse> GetDiscount(GetDiscountRequest request, ServerCallContext context)
         {
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
+            // Fetch the coupons from the database
             var result = await _dbContext.Coupons
-                .FirstOrDefaultAsync(c => c.ProductName == request.ProductName);
+                .Where(c => c.Id == request.Id).AsNoTracking()
+                .ToListAsync();
 
-            // If no result found, return default values (this can be customized as needed)
-            if (result == null)
+            // Prepare the response object
+            var response = new GetDiscountResponse();
+
+            foreach (var coupon in result)
             {
-                return new CouponModel
+                // Map each coupon to the Coupon message and add it to the response
+                response.Coupons.Add(new Coupon
                 {
-                    ProductName = "No Discount",
-                    Description = "Discount not found",
-                    Amount = 0,
-                    Id = 0
-                };
+                    Id = coupon.Id,
+                    ProductName = coupon.ProductName,
+                    Description = coupon.Description,
+                    Amount = coupon.Amount
+                });
             }
 
-            // Return the coupon information if found
-            return new CouponModel
-            {
-                ProductName = result.ProductName,
-                Description = result.Description,
-                Amount = result.Amount,
-                Id = result.Id
-            };
+            // Return the response with multiple coupons
+            return response;
         }
-   
-        //public override async Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
-        //{
-        //    Coupon coupon = new ()
-        //    {
-        //      ProductName=req
-        //    }
-        //    var result = await _dbContext.AddRangeAsync(coupon);
-        //    return Task.FromResult(new CouponModel());
-        //}
+
+        // Example method for creating a new discount
+        public override async Task<Coupon> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
+        {
+            if (request == null || request.Coupon == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            // Create a new coupon from the request
+            var coupon = new Coupon
+            {
+                ProductName = request.Coupon.ProductName,
+                Description = request.Coupon.Description,
+                Amount = request.Coupon.Amount
+            };
+
+            // Add the new coupon to the database
+            _dbContext.Coupons.Add(coupon);
+            await _dbContext.SaveChangesAsync();
+
+            // Return the created coupon (with ID assigned by the DB)
+            return coupon;
+        }
     }
 }
