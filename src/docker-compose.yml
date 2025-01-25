@@ -8,6 +8,26 @@ services:
    build:
     dockerfile: Services/Catalog/CatalogApi/Dockerfile
 
+ discount.grpc:
+    image: ${DOCKER_REGISTRY-}discountgrpc
+    build:
+      context: .
+      dockerfile: Discount/Discount.Grpc/Dockerfile
+
+ catalogapi:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: .
+      dockerfile: Services/catalog/CatalogApi/Dockerfile
+
+ basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.Api/Dockerfile
+
 volumes:
    postgres_catalog:
    postgres_basket: 
+
+

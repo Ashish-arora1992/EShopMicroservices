@@ -51,7 +51,7 @@ namespace Discount.Grpc.Services
         {
             if (request == null || request.Coupon == null)
             {
-                throw new ArgumentNullException(nameof(request));
+                throw new RpcException(new Status(StatusCode.InvalidArgument,"invalid request"));
             }
 
             // Create a new coupon from the request
