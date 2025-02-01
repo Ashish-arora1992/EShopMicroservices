@@ -1,5 +1,6 @@
 using Basket.Api.Basket.Data;
 using BuildingBlocks.Behaviours;
+using Discount.Grpc;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,10 @@ builder.Services.AddMarten(opts =>
 
 }).UseLightweightSessions();
 
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
 builder.Services.AddScoped<IBasketRepository,BasketRepository>();
 // Add services to the container
 var app = builder.Build();

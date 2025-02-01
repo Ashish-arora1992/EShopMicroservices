@@ -24,25 +24,32 @@ namespace Discount.Grpc.Services
 
             // Fetch the coupons from the database
             var result = await _dbContext.Coupons
-                .Where(c => c.Id == request.Id).AsNoTracking()
-                .ToListAsync();
+                .Where(c => c.ProductName == request.ProductName).AsNoTracking()
+                .FirstOrDefaultAsync();
 
             // Prepare the response object
             var response = new GetDiscountResponse();
 
-            foreach (var coupon in result)
-            {
-                // Map each coupon to the Coupon message and add it to the response
-                response.Coupons.Add(new Coupon
-                {
-                    Id = coupon.Id,
-                    ProductName = coupon.ProductName,
-                    Description = coupon.Description,
-                    Amount = coupon.Amount
-                });
-            }
+            // foreach (var coupon in result)
+            // {
+            // Map each coupon to the Coupon message and add it to the response
+            //response.Coupons.Add(new Coupon
+            //{
+            //    Id = coupon.Id,
+            //    ProductName = coupon.ProductName,
+            //    Description = coupon.Description,
+            //    Amount = coupon.Amount
+            //});
+            //  }
 
             // Return the response with multiple coupons
+            response.Coupon = new Coupon
+            {
+                Id = result.Id,
+                ProductName=result.ProductName,
+                Description=result.Description,
+                Amount=result.Amount
+            };
             return response;
         }
 

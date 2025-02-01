@@ -14,7 +14,7 @@ service DiscountProtoService {
 
 // Request to get discounts based on product name
 message GetDiscountRequest {
-  int32 id = 1;
+  string productName = 1;
 }
 
 // Request to create a new discount with coupon data
@@ -24,7 +24,7 @@ message CreateDiscountRequest {
 
 // Response containing a list of coupons
 message GetDiscountResponse {
-  repeated Coupon coupons = 1;  // Repeated field to return multiple coupons
+  Coupon coupon = 1;  // Repeated field to return multiple coupons
 }
 
 // Coupon model representing a discount
