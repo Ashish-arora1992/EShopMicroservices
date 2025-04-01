@@ -2,7 +2,7 @@ using Basket.Api.Basket.Data;
 using BuildingBlocks.Behaviours;
 using Discount.Grpc;
 using FluentValidation;
-
+using BuildingBlocks.messaging.MassTransit;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
@@ -11,6 +11,7 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 
 });
+
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddMarten(opts =>
@@ -25,9 +26,11 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
     options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
 });
 builder.Services.AddScoped<IBasketRepository,BasketRepository>();
+builder.Services.AddMessageBroker(builder.Configuration);
 // Add services to the container
 var app = builder.Build();
 
 // configure the http request pipeline.
+
 app.MapCarter();
 app.Run();
