@@ -16,7 +16,7 @@ builder.Services.AddMarten(opts =>
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
 
 }).UseLightweightSessions();
-builder.Services.AddMessageBroker(builder.Configuration, typeof(Program).Assembly);
+//builder.Services.AddMessageBroker(builder.Configuration, typeof(Program).Assembly);
 // Add services to the container
 var app = builder.Build();
 

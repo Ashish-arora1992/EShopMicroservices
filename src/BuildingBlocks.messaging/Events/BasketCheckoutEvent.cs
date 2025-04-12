@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BuildingBlocks.messaging.Events
 {
-    class BasketCheckoutEvent:IntegrationEvent
+    public class BasketCheckoutEvent:IntergrationEvent
     {
+        public string UserName { get; set; }
     }
 }

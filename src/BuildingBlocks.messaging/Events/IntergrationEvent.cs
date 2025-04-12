@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BuildingBlocks.messaging.Events
 {
-    internal class IntergrationEvent // for common events , all other event will inherit this event
+    public class IntergrationEvent // for common events , all other event will inherit this event
     {
         public Guid Id=>Guid.NewGuid();
         public DateTime OccuredOn=DateTime.Now;

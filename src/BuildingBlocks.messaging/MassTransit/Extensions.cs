@@ -25,7 +25,7 @@ namespace BuildingBlocks.messaging.MassTransit
                     cfg.Host(new Uri(configuration["MessageBroker:Host"]), h =>
                     {
                         h.Username(configuration["MessageBroker:UserName"]);
-                        h.Password(configuration["MessageBroker:UserName"]);
+                        h.Password(configuration["MessageBroker:Password"]);
                     });
 
                     cfg.ConfigureEndpoints(context); // Auto-configure consumers

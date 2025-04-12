@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Products\DeleteProduct\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <ItemGroup>
